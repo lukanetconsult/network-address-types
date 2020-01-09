@@ -1,5 +1,7 @@
 # Network Address Types for PHP
 
+[![Build Status](https://travis-ci.org/lukanetconsult/network-address-types.svg?branch=master)](https://travis-ci.org/lukanetconsult/network-address-types)
+
 This library provides types to handle the most common network addresses.
 The following address types are supported:
 
