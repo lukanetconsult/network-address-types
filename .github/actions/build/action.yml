@@ -1,0 +1,25 @@
+name: "PHP Build"
+description: "Performs PHP specific build tasks"
+
+inputs:
+  stage:
+    description: "The build stage to execute"
+    required: true
+
+  test_coverage:
+    description: "Whether test coverage should be collected or not"
+    required: false
+    default: ""
+
+outputs:
+  build_status:
+    description: "Overall result of the build"
+  context_dir:
+    description: "Context directory for processing code coverage reports"
+
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+    - ${{ inputs.stage }}
+    - ${{ inputs.test_coverage }}

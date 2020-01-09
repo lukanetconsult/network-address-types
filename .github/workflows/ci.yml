@@ -1,0 +1,29 @@
+name: "CI"
+on:
+  - push
+  - pull_request
+
+jobs:
+  run-tests:
+    name: "Test Suite"
+    runs-on: ubuntu-latest
+    steps:
+      - name: PHPUnit
+        uses: ./.github/actions/build
+        with:
+          stage: test
+          test_coverage: "true"
+
+  analyse:
+    name: "Static Analysis"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Psalm
+        uses: ./.github/actions/build
+        with:
+          stage: analyse
+
+      - name: PHP CS
+        uses: ./.github/actions/build
+        with:
+          stage: cs
