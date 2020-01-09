@@ -22,84 +22,104 @@ use function strpos;
 class Assert
 {
     /**
+     * @param mixed $value
+     *
      * @psalm-pure
      * @psalm-assert string $value
-     * @param mixed $value
      */
-    public static function string($value, string $message = null): void
+    public static function string($value, ?string $message = null): void
     {
-        if (!is_string($value)) {
-            self::throwInvalidArgument($message ?? 'Expected %s to be a string.', self::typeStringFor($value));
+        if (is_string($value)) {
+            return;
         }
+
+        self::throwInvalidArgument($message ?? 'Expected %s to be a string.', self::typeStringFor($value));
     }
 
     /**
+     * @param mixed $value
+     *
      * @psalm-pure
      * @psalm-assert int $value
-     * @param mixed $value
      */
-    public static function integer($value, string $message = null): void
+    public static function integer($value, ?string $message = null): void
     {
-        if (!is_int($value)) {
-            self::throwInvalidArgument($message ?? 'Expected %s to be an integer.', self::typeStringFor($value));
+        if (is_int($value)) {
+            return;
         }
+
+        self::throwInvalidArgument($message ?? 'Expected %s to be an integer.', self::typeStringFor($value));
     }
 
     /**
      * @psalm-pure
      */
-    public static function range(int $value, int $min, int $max, string $message = null): void
+    public static function range(int $value, int $min, int $max, ?string $message = null): void
     {
-        if ($value < $min || $value > $max) {
-            self::throwInvalidArgument($message ?? 'Expected %d to be in range of %d - %d.', $value, $min, $max);
+        if ($value >= $min && $value <= $max) {
+            return;
         }
+
+        self::throwInvalidArgument($message ?? 'Expected %d to be in range of %d - %d.', $value, $min, $max);
     }
 
     /**
      * @psalm-pure
      */
-    public static function contains(string $value, string $substring, string $message = null): void
+    public static function contains(string $value, string $substring, ?string $message = null): void
     {
-        if (strpos($value, $substring) === false) {
-            self::throwInvalidArgument($message ?? 'Expected "%s" to contain "%s".', $value, $substring);
+        if (strpos($value, $substring) !== false) {
+            return;
         }
+
+        self::throwInvalidArgument($message ?? 'Expected "%s" to contain "%s".', $value, $substring);
     }
 
     /**
+     * @param string|int $value
+     *
      * @psalm-pure
      * @psalm-assert numeric $value
-     * @param string|int $value
      */
-    public static function integerish($value, string $message = null): void
+    public static function integerish($value, ?string $message = null): void
     {
-        if (!is_numeric($value) || $value != (int)$value) {
-            self::throwInvalidArgument($message ?? 'Expected "%s" to be an integer-like value', $value);
+        // phpcs:disable SlevomatCodingStandard.Operators.DisallowEqualOperators
+        if (is_numeric($value) && $value == (int)$value) {
+            return;
         }
+
+        // phpcs:enable
+        self::throwInvalidArgument($message ?? 'Expected "%s" to be an integer-like value', $value);
     }
 
     /**
      * @psalm-pure
      */
-    public static function lessThanEq(int $value, int $max, string $message = null): void
+    public static function lessThanEq(int $value, int $max, ?string $message = null): void
     {
-        if ($value > $max) {
-            self::throwInvalidArgument($message ?? 'Expected %d to be less than %d', $value, $max);
+        if ($value <= $max) {
+            return;
         }
+
+        self::throwInvalidArgument($message ?? 'Expected %d to be less than %d', $value, $max);
     }
 
     /**
      * @psalm-pure
      */
-    public static function regex(string $value, string $regex, string $message = null): void
+    public static function regex(string $value, string $regex, ?string $message = null): void
     {
-        if (!preg_match($regex, $value)) {
-            self::throwInvalidArgument($message ?? 'Expected "%s" to match "%s".', $value, $regex);
+        if (preg_match($regex, $value)) {
+            return;
         }
+
+        self::throwInvalidArgument($message ?? 'Expected "%s" to match "%s".', $value, $regex);
     }
 
     /**
-     * @psalm-pure
      * @param float|int|string ...$args
+     *
+     * @psalm-pure
      */
     private static function throwInvalidArgument(string $message, ...$args): void
     {
@@ -112,8 +132,9 @@ class Assert
     }
 
     /**
-     * @psalm-pure
      * @param mixed $value
+     *
+     * @psalm-pure
      */
     private static function typeStringFor($value): string
     {

@@ -14,7 +14,7 @@ class IPv4NetworkTest extends TestCase
     public function testShouldNormalizeCidrAddressToPrefix(): void
     {
         $expected = '88.154.76.0/24';
-        $subject = new IPv4Network(CIDRv4Address::fromString('88.154.76.23/24'));
+        $subject  = new IPv4Network(CIDRv4Address::fromString('88.154.76.23/24'));
 
         self::assertSame($expected, $subject->toString());
         self::assertEquals($expected, $subject->toCidrAddress()->toString());

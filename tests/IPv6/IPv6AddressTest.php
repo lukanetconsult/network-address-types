@@ -73,7 +73,7 @@ class IPv6AddressTest extends TestCase
     public function testShouldMatchEquality(): void
     {
         $subject = IPv6Address::fromString('fe80::a65:78:0:22');
-        $other = IPv6Address::fromString('fe80::a65:78:0:22');
+        $other   = IPv6Address::fromString('fe80::a65:78:0:22');
 
         self::assertNotSame($subject, $other);
         self::assertTrue($subject->equals($other));
@@ -97,7 +97,7 @@ class IPv6AddressTest extends TestCase
     public function testShouldExportNumericValue(): void
     {
         $subject = IPv6Address::fromString('fe80::a65:78:0:22');
-        $number = $subject->toNumber();
+        $number  = $subject->toNumber();
 
         self::assertTrue($subject->equals(new IPv6Address($number)));
     }
@@ -111,7 +111,7 @@ class IPv6AddressTest extends TestCase
     public function testShouldBeJsonSerializable(): void
     {
         $subject = IPv6Address::fromString('fe80::a65:78:0:22');
-        $json = json_encode($subject);
+        $json    = json_encode($subject);
 
         self::assertSame(
             $subject->toString(),

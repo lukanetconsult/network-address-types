@@ -81,7 +81,7 @@ class CIDRv4AddressTest extends TestCase
     public function testShouldMatchEquality(): void
     {
         $subject = CIDRv4Address::fromString('128.6.119.56/24');
-        $other = CIDRv4Address::fromString('128.6.119.56/24');
+        $other   = CIDRv4Address::fromString('128.6.119.56/24');
 
         self::assertNotSame($other, $subject);
         self::assertTrue($subject->equals($other));

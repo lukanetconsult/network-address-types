@@ -7,6 +7,7 @@ namespace LUKATest\Network;
 use InvalidArgumentException;
 use LUKA\Network\MACAddress;
 use PHPUnit\Framework\TestCase;
+
 use function json_decode;
 use function json_encode;
 
@@ -55,7 +56,7 @@ class MACAddressTest extends TestCase
     public function testShouldBeJsonSerializable(): void
     {
         $subject = MACAddress::generateRandomAddress();
-        $json = json_encode($subject);
+        $json    = json_encode($subject);
 
         self::assertSame(
             $subject->toString(),
@@ -65,7 +66,7 @@ class MACAddressTest extends TestCase
 
     public function testShouldGenerateRandomAddresses(): void
     {
-        $first = MACAddress::generateRandomAddress();
+        $first  = MACAddress::generateRandomAddress();
         $second = MACAddress::generateRandomAddress();
 
         self::assertNotSame(
@@ -77,7 +78,7 @@ class MACAddressTest extends TestCase
     public function testShouldGenerateRandomAddressesWithPrefix(): void
     {
         $prefix = '200000';
-        $first = MACAddress::generateRandomAddress($prefix);
+        $first  = MACAddress::generateRandomAddress($prefix);
         $second = MACAddress::generateRandomAddress($prefix);
 
         self::assertNotSame(

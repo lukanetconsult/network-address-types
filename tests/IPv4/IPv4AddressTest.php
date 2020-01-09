@@ -7,6 +7,7 @@ namespace LUKATest\Network\IPv4;
 use InvalidArgumentException;
 use LUKA\Network\IPv4\IPv4Address;
 use PHPUnit\Framework\TestCase;
+
 use function json_decode;
 use function json_encode;
 
@@ -40,7 +41,7 @@ class IPv4AddressTest extends TestCase
             '10.896.0.2',
             '86.1340.56.263',
             '',
-            '127001'
+            '127001',
         ];
 
         foreach ($list as $ip) {
@@ -64,7 +65,7 @@ class IPv4AddressTest extends TestCase
 
     public function testShouldCompareEquality(): void
     {
-        $first = IPv4Address::fromString('192.168.55.7');
+        $first  = IPv4Address::fromString('192.168.55.7');
         $second = IPv4Address::fromString('192.168.55.7');
 
         self::assertNotSame($first, $second);
@@ -93,7 +94,7 @@ class IPv4AddressTest extends TestCase
     public function testShouldExportBinaryValue(): void
     {
         $expected = '255.0.0.5';
-        $bytes = IPv4Address::fromString($expected)->toByteString();
+        $bytes    = IPv4Address::fromString($expected)->toByteString();
 
         self::assertNotSame($expected, $bytes);
         self::assertSame($expected, IPv4Address::fromByteString($bytes)->toString());
@@ -108,7 +109,7 @@ class IPv4AddressTest extends TestCase
     public function testShouldBeJsonSerializable(): void
     {
         $subject = IPv4Address::fromString('192.168.0.33');
-        $json = json_encode($subject);
+        $json    = json_encode($subject);
 
         self::assertTrue(
             $subject->equals(

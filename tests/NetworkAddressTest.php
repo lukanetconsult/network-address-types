@@ -38,9 +38,8 @@ class NetworkAddressTest extends TestCase
     public function testShouldConstructFromString(
         string $address,
         string $expectedClass,
-        string $expectedToString = null
-    ): void
-    {
+        ?string $expectedToString = null
+    ): void {
         $result = NetworkAddress::fromString($address);
 
         self::assertInstanceOf($expectedClass, $result);

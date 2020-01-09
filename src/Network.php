@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace LUKA\Network;
 
-use LUKA\Network\IPv4\CIDRv4Address;
-
 /**
  * @psalm-immutable
  */

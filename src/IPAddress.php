@@ -12,8 +12,9 @@ use function strpos;
 abstract class IPAddress extends NetworkAddress
 {
     /**
-     * @psalm-pure
      * @return IPv4\IPv4Address|IPv6\IPv6Address
+     *
+     * @psalm-pure
      */
     public static function fromString(string $address): self
     {

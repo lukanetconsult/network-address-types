@@ -30,9 +30,9 @@ final class IPv6Network implements Network
 
     public function __construct(CIDRv6Address $cidr)
     {
-        $prefix = $cidr->getPrefixLength();
+        $prefix        = $cidr->getPrefixLength();
         $this->netmask = gmp_init(str_pad(str_repeat('1', $prefix), 128, '0', STR_PAD_RIGHT), 2);
-        $this->cidr = new CIDRv6Address(
+        $this->cidr    = new CIDRv6Address(
             new IPv6Address(
                 gmp_and(
                     $cidr->toAddress()->toNumber(),
@@ -92,13 +92,13 @@ final class IPv6Network implements Network
     public function containsAddress(IPAddress $address): bool
     {
         return $address instanceof IPv6Address
-            &&  0 === gmp_cmp(
+            && gmp_cmp(
                 gmp_and(
                     $address->toNumber(),
                     $this->netmask
                 ),
                 $this->cidr->toAddress()->toNumber()
-            );
+            ) === 0;
     }
 
     public function toCidrAddress(): CIDRAddress

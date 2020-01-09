@@ -19,9 +19,9 @@ final class IPv4Network implements Network
 
     public function __construct(CIDRv4Address $cidr)
     {
-        $prefixLength = $cidr->getPrefixLength();
-        $this->netmask = (-1 << (32 - $prefixLength)) & 0xffffffff;
-        $this->cidr = new CIDRv4Address(
+        $prefixLength  = $cidr->getPrefixLength();
+        $this->netmask = -1 << 32 - $prefixLength & 0xffffffff;
+        $this->cidr    = new CIDRv4Address(
             new IPv4Address(
                 $cidr->toAddress()->toInt() & $this->netmask
             ),

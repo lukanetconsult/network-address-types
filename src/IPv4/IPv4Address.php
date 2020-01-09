@@ -9,11 +9,11 @@ use LUKA\Network\Address;
 use LUKA\Network\Assert;
 use LUKA\Network\IPAddress;
 
+use function assert;
 use function ip2long;
 use function is_int;
 use function long2ip;
 use function pack;
-use function sprintf;
 use function unpack;
 
 /**
@@ -38,6 +38,7 @@ final class IPv4Address extends IPAddress implements JsonSerializable
         $value = ip2long($address);
 
         Assert::integer($value);
+
         return new self($value);
     }
 
@@ -46,8 +47,9 @@ final class IPv4Address extends IPAddress implements JsonSerializable
      */
     public static function fromByteString(string $bytes): self
     {
-        /** @var int $address */
         $address = unpack('Naddr', $bytes)['addr'];
+        assert(is_int($address));
+
         return new self($address);
     }
 

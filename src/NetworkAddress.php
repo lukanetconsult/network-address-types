@@ -15,8 +15,9 @@ abstract class NetworkAddress implements Address
     private const MAC_ADDRESS_FORMAT = '/^[0-9a-f]{2}([:-]?[0-9a-f]{2}){5}$/i';
 
     /**
-     * @psalm-pure
      * @return MACAddress|IPv4\IPv4Address|IPv4\CIDRv4Address|IPv6\IPv6Address|IPv6\CIDRv6Address
+     *
+     * @psalm-pure
      */
     public static function fromString(string $address): NetworkAddress
     {

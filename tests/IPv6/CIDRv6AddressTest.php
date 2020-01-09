@@ -6,7 +6,6 @@ namespace LUKATest\Network\IPv6;
 
 use InvalidArgumentException;
 use LUKA\Network\Address;
-use LUKA\Network\IPv4\CIDRv4Address;
 use LUKA\Network\IPv6\CIDRv6Address;
 use LUKA\Network\IPv6\IPv6Address;
 use LUKA\Network\MACAddress;
@@ -65,7 +64,7 @@ class CIDRv6AddressTest extends TestCase
     public function testShouldMatchEquality(): void
     {
         $subject = CIDRv6Address::fromString('2004:6fe8::4/64');
-        $other = CIDRv6Address::fromString('2004:6fe8::4/64');
+        $other   = CIDRv6Address::fromString('2004:6fe8::4/64');
 
         self::assertNotSame($subject, $other);
         self::assertTrue($subject->equals($other));
@@ -102,7 +101,7 @@ class CIDRv6AddressTest extends TestCase
     public function testShouldBeJsonSerializable(): void
     {
         $subject = CIDRv6Address::fromString('2004:6fe8::4/64');
-        $json = json_encode($subject);
+        $json    = json_encode($subject);
 
         self::assertSame(
             $subject->toString(),

@@ -19,8 +19,9 @@ abstract class CIDRAddress extends NetworkAddress
     }
 
     /**
-     * @psalm-pure
      * @return IPv6\CIDRv6Address|IPv4\CIDRv4Address
+     *
+     * @psalm-pure
      */
     public static function fromString(string $address): self
     {

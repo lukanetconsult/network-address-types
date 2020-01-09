@@ -23,6 +23,7 @@ use function str_repeat;
 use function strlen;
 use function strtr;
 use function substr;
+
 use const GMP_MSW_FIRST;
 use const STR_PAD_LEFT;
 
@@ -47,7 +48,7 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
             sprintf('Invalid mac address value "%s" (overflow).', gmp_strval($address, 16))
         );
 
-        $this->address = $address;
+        $this->address  = $address;
         $this->vendorId = bin2hex(substr($binary, 0, 3));
     }
 
@@ -58,6 +59,7 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
     public static function fromString(string $value): self
     {
         Assert::regex($value, self::MAC_ADDRESS_FORMAT, 'Invalid mac address: "%s"');
+
         return new self(gmp_init(strtr($value, [':' => '', '-' => '']), 16));
     }
 
@@ -67,8 +69,9 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
      * The prefix is omitted or empty, this method will ensure that the generated
      * Address is  flagged as a local one.
      *
-     * @psalm-mutation-free
      * @param string $prefix Prefix as hex number, 3 bytes at maximum.
+     *
+     * @psalm-mutation-free
      */
     public static function generateRandomAddress(string $prefix = ''): self
     {
@@ -95,7 +98,7 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
 
     public function toString(): string
     {
-        $hex = str_pad(gmp_strval($this->address, 16), 12, '0', STR_PAD_LEFT);
+        $hex      = str_pad(gmp_strval($this->address, 16), 12, '0', STR_PAD_LEFT);
         $segments = [];
 
         for ($offset = 0; $offset < 12; $offset += 2) {
@@ -113,10 +116,10 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
     public function equals(Address $other): bool
     {
         return $other instanceof self
-            && 0 === gmp_cmp($this->address, $other->address);
+            && gmp_cmp($this->address, $other->address) === 0;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->toString();
     }
@@ -133,9 +136,6 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
 
     public function isBroadCast(): bool
     {
-        return 0 === gmp_cmp(
-            $this->address,
-            gmp_init('ffffffffffff', 16)
-        );
+        return gmp_cmp($this->address, gmp_init('ffffffffffff', 16)) === 0;
     }
 }

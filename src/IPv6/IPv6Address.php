@@ -44,7 +44,7 @@ final class IPv6Address extends IPAddress implements JsonSerializable
     {
         // Special NULL-Address notation
         if ($address === '::') {
-            return new self(gmp_init(str_repeat("00", 32), 16));
+            return new self(gmp_init(str_repeat('00', 32), 16));
         }
 
         Assert::contains($address, ':', 'Invalid ip v6 address: "%s"');
@@ -62,6 +62,7 @@ final class IPv6Address extends IPAddress implements JsonSerializable
     public static function fromBinary(string $bytes): self
     {
         Assert::lessThanEq(strlen($bytes), 16, 'Invalid IPv6 address length: %d bytes');
+
         return new self(gmp_init(bin2hex($bytes), 16));
     }
 
@@ -83,7 +84,7 @@ final class IPv6Address extends IPAddress implements JsonSerializable
     public function equals(Address $other): bool
     {
         return $other instanceof self
-            && 0 === gmp_cmp($this->address, $other->address);
+            && gmp_cmp($this->address, $other->address) === 0;
     }
 
     public function isNull(): bool
