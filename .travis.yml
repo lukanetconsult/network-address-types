@@ -15,7 +15,16 @@ before_install:
 install:
   - composer install --no-progress --no-interaction --no-ansi --prefer-dist --no-suggest
 
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - 'test "$TEST_COVERAGE" != true || ./cc-test-reporter before-build'
+
 script:
   - composer run-script test -- --colors=always --coverage-clover ./clover.xml
   - composer run-script analyse -- --no-progress
   - composer run-script cs-check
+
+after_script:
+  - 'test "$TEST_COVERAGE" != true || ./cc-test-reporter format-coverage -t clover -o ./coverage.json ./clover.xml'
+  - 'test "$TEST_COVERAGE" != true || ./cc-test-reporter upload-coverage -i ./coverage.json --exit-code $TRAVIS_TEST_RESULT'
