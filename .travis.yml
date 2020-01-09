@@ -1,11 +1,15 @@
 language: php
-php:
-  - 7.4
 
-jobs:
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+matrix:
+  fast_finish: true
   include:
     - php: 7.4
-      env: TEST_COVERAGE=true
+      env:
+        - TEST_COVERAGE=true
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -18,7 +22,7 @@ install:
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
-  - 'test "$TEST_COVERAGE" != true || ./cc-test-reporter before-build'
+  - if [[ "$TEST_COVERAGE" == 'true' ]]; then ./cc-test-reporter before-build ; fi
 
 script:
   - composer run-script test -- --colors=always --coverage-clover ./clover.xml
@@ -26,5 +30,9 @@ script:
   - composer run-script cs-check
 
 after_script:
-  - 'test "$TEST_COVERAGE" != true || ./cc-test-reporter format-coverage -t clover -o ./coverage.json ./clover.xml'
-  - 'test "$TEST_COVERAGE" != true || ./cc-test-reporter upload-coverage -i ./coverage.json --exit-code $TRAVIS_TEST_RESULT'
+  - |
+    if [[ "$TEST_COVERAGE" == 'true' ]]; then
+      echo "Uploading coverage...";
+      ./cc-test-reporter format-coverage -t clover -o ./coverage.json ./clover.xml;
+      ./cc-test-reporter upload-coverage -i ./coverage.json --exit-code $TRAVIS_TEST_RESULT;
+    fi
