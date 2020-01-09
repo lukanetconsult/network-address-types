@@ -50,7 +50,7 @@ to strings as well with the `toString()` method.
 ```php
 use LUKA\Network\NetworkAddress;
 
-assert('::1' === NetworkAddress::fromString('::1'));
+assert('::1' === NetworkAddress::fromString('::1')->toString());
 ```
 
 When converting addresses to strings, they will be normalized for the corresponding type:
@@ -58,9 +58,22 @@ When converting addresses to strings, they will be normalized for the correspond
 ```php
 use LUKA\Network\NetworkAddress;
 
-assert('::1' === NetworkAddress::fromString('0:0:0:0::1'));
-assert('00:00:00:00:00:00' === NetworkAddress::fromString('00-00-00-00-00-00'));
+assert('::1' === NetworkAddress::fromString('0:0:0:0::1')->toString());
+assert('00:00:00:00:00:00' === NetworkAddress::fromString('00-00-00-00-00-00')->toString());
 ```
+
+## JSON
+
+All address types implement the `JSONSerializable` interface, and can therefore be used with 
+`json_encode()` directly.
+
+## Binary
+
+IP and MAC addresses can also be converted to the corresponding byte sequence. (for example to storing them in
+a `BINARY` database field).
+
+They can also be constructed from this byte sequence with the static `fromByteString()` method of the corresponding
+class.
 
 # Address Comparison
 
