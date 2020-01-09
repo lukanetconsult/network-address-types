@@ -31,8 +31,8 @@ script:
 
 after_script:
   - |
-    if [[ "$TEST_COVERAGE" == 'true' ]]; then
+    if [[ $TEST_COVERAGE == 'true' && $TRAVIS_TEST_RESULT == 0 ]]; then
       echo "Uploading coverage...";
       ./cc-test-reporter format-coverage -t clover -o ./coverage.json ./clover.xml;
-      ./cc-test-reporter upload-coverage -i ./coverage.json --exit-code $TRAVIS_TEST_RESULT;
+      ./cc-test-reporter upload-coverage -i ./coverage.json;
     fi
