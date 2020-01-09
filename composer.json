@@ -22,7 +22,8 @@
     "require": {
         "php": "^7.4",
         "ext-gmp": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "doctrine/coding-standard": "^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
@@ -30,6 +31,7 @@
     },
     "scripts": {
         "test": "phpunit --testdox",
-        "analyse": "psalm"
+        "analyse": "psalm",
+        "cs-check": "phpcs"
     }
 }
