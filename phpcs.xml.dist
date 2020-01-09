@@ -15,11 +15,30 @@
 
     <!-- Include full Doctrine Coding Standard -->
     <rule ref="Doctrine"/>
-    <rule ref="PSR12"/>
+    <rule ref="PSR12">
+        <!-- Conflicts with doctrines rules that enforce PSR12 compatible behavior -->
+        <exclude name="PSR12.Files.FileHeader" />
+    </rule>
 
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing">
         <properties>
             <property name="spacesCountBeforeColon" value="0" />
         </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Namespaces.UseSpacing">
+        <properties>
+            <property name="linesCountBetweenUseTypes" value="1" />
+        </properties>
+    </rule>
+
+    <rule ref="Generic.Formatting.SpaceAfterCast">
+        <properties>
+            <property name="spacing" value="0" />
+        </properties>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
+        <exclude-pattern>tests/*</exclude-pattern>
     </rule>
 </ruleset>
