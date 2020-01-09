@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace LUKA\Network;
 
 use GMP;
-use InvalidArgumentException;
 use JsonSerializable;
-use Webmozart\Assert\Assert;
+
 use function bin2hex;
 use function gmp_add;
 use function gmp_cmp;
@@ -43,7 +42,7 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
         $binary = gmp_export($address, 1, GMP_MSW_FIRST);
 
         Assert::lessThanEq(
-            $binary,
+            strlen($binary),
             6,
             sprintf('Invalid mac address value "%s" (overflow).', gmp_strval($address, 16))
         );
@@ -58,7 +57,6 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
      */
     public static function fromString(string $value): self
     {
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::regex($value, self::MAC_ADDRESS_FORMAT, 'Invalid mac address: "%s"');
         return new self(gmp_init(strtr($value, [':' => '', '-' => '']), 16));
     }
@@ -83,7 +81,6 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
             );
         }
 
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::regex($prefix, '/^([a-f0-9]{2}){0,3}$/i', 'Invalid mac address prefix: "%s"');
 
         $prefixLength = strlen($prefix);

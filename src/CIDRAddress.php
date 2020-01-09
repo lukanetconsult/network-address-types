@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace LUKA\Network;
 
-use Webmozart\Assert\Assert;
-
-use function explode;
 use function strpos;
 
 /**

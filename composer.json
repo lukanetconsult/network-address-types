@@ -2,7 +2,7 @@
     "name": "luka/network-address-types",
     "description": "Provides typed value objects for network addresses (IP v4/v6 and MAC)",
     "type": "library",
-    "license": "LGPL",
+    "license": "LGPL-3.0",
     "authors": [
         {
             "name": "Axel Helmert",
@@ -22,8 +22,7 @@
     "require": {
         "php": "^7.4",
         "ext-gmp": "*",
-        "ext-json": "*",
-        "webmozart/assert": "^1.6"
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5"

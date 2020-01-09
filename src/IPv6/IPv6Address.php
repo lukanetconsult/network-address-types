@@ -7,8 +7,8 @@ namespace LUKA\Network\IPv6;
 use GMP;
 use JsonSerializable;
 use LUKA\Network\Address;
+use LUKA\Network\Assert;
 use LUKA\Network\IPAddress;
-use Webmozart\Assert\Assert;
 
 use function bin2hex;
 use function gmp_cmp;
@@ -47,12 +47,10 @@ final class IPv6Address extends IPAddress implements JsonSerializable
             return new self(gmp_init(str_repeat("00", 32), 16));
         }
 
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::contains($address, ':', 'Invalid ip v6 address: "%s"');
 
         $bytes = inet_pton($address);
 
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::string($bytes, sprintf('Invalid ip v6 address: "%s"', $address));
 
         return self::fromBinary($bytes);
@@ -63,7 +61,6 @@ final class IPv6Address extends IPAddress implements JsonSerializable
      */
     public static function fromBinary(string $bytes): self
     {
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::lessThanEq(strlen($bytes), 16, 'Invalid IPv6 address length: %d bytes');
         return new self(gmp_init(bin2hex($bytes), 16));
     }

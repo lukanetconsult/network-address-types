@@ -6,9 +6,9 @@ namespace LUKA\Network\IPv4;
 
 use JsonSerializable;
 use LUKA\Network\Address;
+use LUKA\Network\Assert;
 use LUKA\Network\CIDRAddress;
 
-use Webmozart\Assert\Assert;
 use function explode;
 use function sprintf;
 
@@ -33,12 +33,10 @@ final class CIDRv4Address extends CIDRAddress implements JsonSerializable
      */
     public static function fromString(string $address): self
     {
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::contains($address, '/', 'Invalid cidr address format');
 
         [$ipAddress, $prefix] = explode('/', $address, 2);
 
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::integerish($prefix, 'Invalid cidr address prefix "%s"');
 
         return new self(

@@ -6,8 +6,8 @@ namespace LUKA\Network\IPv4;
 
 use JsonSerializable;
 use LUKA\Network\Address;
+use LUKA\Network\Assert;
 use LUKA\Network\IPAddress;
-use Webmozart\Assert\Assert;
 
 use function ip2long;
 use function is_int;
@@ -25,7 +25,6 @@ final class IPv4Address extends IPAddress implements JsonSerializable
 
     public function __construct(int $address)
     {
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::lessThanEq($address, 0xffffffff, 'Invalid IP-Address value "0x%x" (overflow).');
         $this->address = $address;
     }
@@ -38,7 +37,6 @@ final class IPv4Address extends IPAddress implements JsonSerializable
     {
         $value = ip2long($address);
 
-        /** @psalm-suppress ImpureMethodCall Missing annotation in assert library */
         Assert::integer($value);
         return new self($value);
     }
