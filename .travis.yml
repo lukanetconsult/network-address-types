@@ -1,0 +1,21 @@
+language: php
+php:
+  - 7.4
+
+jobs:
+  include:
+    - php: 7.4
+      env: TEST_COVERAGE=true
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - pecl install pcov
+  - composer self-update
+
+install:
+  - composer install --no-progress --no-interaction --no-ansi --prefer-dist --no-suggest
+
+script:
+  - composer run-script test -- --colors=always --coverage-clover ./clover.xml
+  - composer run-script analyse -- --no-progress
+  - composer run-script cs-check
