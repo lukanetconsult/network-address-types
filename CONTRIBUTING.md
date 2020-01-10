@@ -21,6 +21,7 @@ Make sure the following requirements are met:
 
  - The changes must pass CI which includes:
     - Unit tests
+    - Infection tests
     - Static analysis
     - Coding style checks
  - Your changes are covered by tests.
