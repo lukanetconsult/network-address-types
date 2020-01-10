@@ -2,7 +2,7 @@
 /.idea/
 /.phpunit.result.cache
 /.phpcs-cache
-/clover.xml
-/coverage.json
 /cc-test-reporter
 /infections/
+/infection.log
+/coverage/

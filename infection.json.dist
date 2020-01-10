@@ -6,6 +6,12 @@
     },
     "timeout": 10,
     "tmpDir": "./infections",
+    "logs": {
+        "text": "infection.log",
+        "badge": {
+            "branch": "master"
+        }
+    },
     "mutators": {
         "@default": true
     }

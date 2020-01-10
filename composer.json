@@ -32,7 +32,13 @@
     "scripts": {
         "test": "phpunit --testdox",
         "analyse": "psalm",
-        "cs-check": "phpcs"
+        "cs-check": "phpcs",
+        "infection-test": "infection --min-msi=75 --min-covered-msi=80",
+        "check": [
+            "@test",
+            "@analyse",
+            "@cs-check"
+        ]
     },
     "extra": {
         "branch-alias": {

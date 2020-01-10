@@ -17,6 +17,8 @@ before_install:
   - composer self-update
 
 install:
+  - export PATH=$PATH:$HOME/.composer/vendor/bin
+  - composer global require infection/infection
   - composer install --no-progress --no-interaction --no-ansi --prefer-dist --no-suggest
 
 before_script:
@@ -25,14 +27,16 @@ before_script:
   - if [[ "$TEST_COVERAGE" == 'true' ]]; then ./cc-test-reporter before-build ; fi
 
 script:
-  - composer run-script test -- --colors=always --coverage-clover ./clover.xml
+  - mkdir ./coverage
+  - composer run-script test -- --colors=always --coverage-clover ./coverage/clover.xml --coverage-xml=./coverage/coverage-xml --log-junit=./coverage/junit.xml
   - composer run-script analyse -- --no-progress
   - composer run-script cs-check
+  - infection --min-msi=75 --min-covered-msi=80 --threads=$(nproc) --coverage=coverage
 
 after_script:
   - |
     if [[ $TEST_COVERAGE == 'true' && $TRAVIS_TEST_RESULT == 0 ]]; then
       echo "Uploading coverage...";
-      ./cc-test-reporter format-coverage -t clover -o ./coverage.json ./clover.xml;
-      ./cc-test-reporter upload-coverage -i ./coverage.json;
+      ./cc-test-reporter format-coverage -t clover -o ./coverage/cc.json ./coverage/clover.xml;
+      ./cc-test-reporter upload-coverage -i ./coverage/cc.json;
     fi
