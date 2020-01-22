@@ -25,9 +25,9 @@
         "ext-json": "*"
     },
     "require-dev": {
+        "doctrine/coding-standard": "^7.0",
         "phpunit/phpunit": "^8.5",
-        "vimeo/psalm": "^3.8",
-        "doctrine/coding-standard": "^7.0"
+        "vimeo/psalm": "^3.8"
     },
     "scripts": {
         "test": "phpunit --testdox",
@@ -39,6 +39,9 @@
             "@analyse",
             "@cs-check"
         ]
+    },
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
