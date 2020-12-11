@@ -52,7 +52,7 @@ final class IPv6Network implements Network
     {
         return $other instanceof self
             && $this->cidr->equals($other->cidr)
-            && $this->netmask === $other->netmask;
+            && gmp_cmp($this->netmask, $other->netmask) === 0;
     }
 
     public function getRangeMinAddress(): CIDRv6Address
