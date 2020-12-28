@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace LUKATest\Network;
 
 use InvalidArgumentException;
+use LUKA\Network\Address;
+use LUKA\Network\IPv6\IPv6Address;
 use LUKA\Network\MACAddress;
 use PHPUnit\Framework\TestCase;
 
@@ -96,5 +98,28 @@ class MACAddressTest extends TestCase
             "\x20\x00\x00\x00\x00\x01",
             MACAddress::fromString('20:00:00:00:00:01')->toByteString()
         );
+    }
+
+    public function testShouldCompareEquality(): void
+    {
+        $first  = MACAddress::fromString('20:00:00:00:00:01');
+        $second = MACAddress::fromString('20:00:00:00:00:01');
+
+        self::assertNotSame($first, $second);
+        self::assertTrue($first->equals($second));
+    }
+
+    public function provideInequalityTestData(): iterable
+    {
+        return [
+            'different address' => ['20:00:00:00:00:01', MACAddress::fromString('20:00:00:00:00:02')],
+            'different type' => ['20:00:00:00:00:01', IPv6Address::fromString('::1')],
+        ];
+    }
+
+    /** @dataProvider provideInequalityTestData */
+    public function testShouldNotMatchInequality(string $subject, Address $other): void
+    {
+        self::assertFalse(MACAddress::fromString($subject)->equals($other));
     }
 }

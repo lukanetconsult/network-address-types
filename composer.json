@@ -33,7 +33,7 @@
         "test": "phpunit --testdox",
         "analyse": "psalm",
         "cs-check": "phpcs",
-        "infection-test": "infection --min-msi=75 --min-covered-msi=80",
+        "infection-test": "infection --min-msi=84 --min-covered-msi=86",
         "check": [
             "@test",
             "@analyse",
