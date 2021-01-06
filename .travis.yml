@@ -17,7 +17,7 @@ before_install:
   - composer self-update
 
 install:
-  - export PATH=$PATH:$HOME/.composer/vendor/bin
+  - export PATH=$PATH:$HOME/.composer/vendor/bin:$HOME/.config/composer/vendor/bin
   - composer global require infection/infection
   - composer install --no-progress --no-interaction --no-ansi --prefer-dist --no-suggest
 
