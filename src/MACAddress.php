@@ -70,8 +70,6 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
      * Address is  flagged as a local one.
      *
      * @param string $prefix Prefix as hex number, 3 bytes at maximum.
-     *
-     * @psalm-mutation-free
      */
     public static function generateRandomAddress(string $prefix = ''): self
     {
