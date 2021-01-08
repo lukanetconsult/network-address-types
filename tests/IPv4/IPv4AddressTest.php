@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace LUKATest\Network\IPv4;
 
 use InvalidArgumentException;
+use LUKA\Network\Address;
+use LUKA\Network\IPv4\CIDRv4Address;
 use LUKA\Network\IPv4\IPv4Address;
+use LUKA\Network\IPv6\IPv6Address;
 use PHPUnit\Framework\TestCase;
 
 use function json_decode;
@@ -72,12 +75,19 @@ class IPv4AddressTest extends TestCase
         self::assertTrue($first->equals($second));
     }
 
-    public function testShouldCompareInequality(): void
+    public function provideInequalityTestData(): iterable
     {
-        self::assertFalse(
-            IPv4Address::fromString('192.168.55.7')
-                ->equals(IPv4Address::fromString('192.168.55.8'))
-        );
+        return [
+            'different address' => ['127.0.0.1', IPv4Address::fromString('127.0.0.2')],
+            'different type' => ['127.0.0.1', IPv6Address::fromString('::1')],
+            'cidr' => ['127.0.0.1', CIDRv4Address::fromString('127.0.0.1/8')],
+        ];
+    }
+
+    /** @dataProvider provideInequalityTestData */
+    public function testShouldNotMatchInequality(string $subject, Address $other): void
+    {
+        self::assertFalse(IPv4Address::fromString($subject)->equals($other));
     }
 
     public function testShouldConvertToInteger(): void

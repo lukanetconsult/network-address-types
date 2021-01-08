@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace LUKATest\Network\IPv4;
 
+use LUKA\Network\Address;
 use LUKA\Network\IPv4\CIDRv4Address;
 use LUKA\Network\IPv4\IPv4Address;
 use LUKA\Network\IPv4\IPv4Network;
+use LUKA\Network\IPv6\CIDRv6Address;
+use LUKA\Network\IPv6\IPv6Network;
 use PHPUnit\Framework\TestCase;
 
 class IPv4NetworkTest extends TestCase
@@ -50,5 +53,29 @@ class IPv4NetworkTest extends TestCase
 
         self::assertSame($min, $subject->getRangeMinAddress()->toString());
         self::assertSame($max, $subject->getRangeMaxAddress()->toString());
+    }
+
+    public function testShouldCompareEquality(): void
+    {
+        $first  = new IPv4Network(CIDRv4Address::fromString('127.0.0.1/8'));
+        $second = new IPv4Network(CIDRv4Address::fromString('127.0.0.1/8'));
+
+        self::assertNotSame($first, $second);
+        self::assertTrue($first->equals($second));
+    }
+
+    public function provideInequalityTestData(): iterable
+    {
+        return [
+            'different network' => ['127.0.0.1/8',  new IPv4Network(CIDRv4Address::fromString('127.0.0.1/16'))],
+            'different type' => ['127.0.0.1/8', new IPv6Network(CIDRv6Address::fromString('::1/10'))],
+            'cidr' => ['127.0.0.1/8', CIDRv4Address::fromString('127.0.0.1/8')],
+        ];
+    }
+
+    /** @dataProvider provideInequalityTestData */
+    public function testShouldNotMatchInequality(string $subject, Address $other): void
+    {
+        self::assertFalse((new IPv4Network(CIDRv4Address::fromString($subject)))->equals($other));
     }
 }

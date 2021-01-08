@@ -31,7 +31,7 @@ script:
   - composer run-script test -- --colors=always --coverage-clover ./coverage/clover.xml --coverage-xml=./coverage/coverage-xml --log-junit=./coverage/junit.xml
   - composer run-script analyse -- --no-progress
   - composer run-script cs-check
-  - infection --min-msi=75 --min-covered-msi=80 --threads=$(nproc) --coverage=coverage
+  - infection --min-msi=84 --min-covered-msi=86 --threads=$(nproc) --coverage=coverage
 
 after_script:
   - |

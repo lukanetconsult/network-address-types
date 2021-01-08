@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace LUKATest\Network\IPv6;
 
+use LUKA\Network\Address;
 use LUKA\Network\IPAddress;
+use LUKA\Network\IPv4\CIDRv4Address;
 use LUKA\Network\IPv4\IPv4Address;
+use LUKA\Network\IPv4\IPv4Network;
 use LUKA\Network\IPv6\CIDRv6Address;
 use LUKA\Network\IPv6\IPv6Address;
 use LUKA\Network\IPv6\IPv6Network;
@@ -86,5 +89,29 @@ class IPv6NetworkTest extends TestCase
         $subject = new IPv6Network(CIDRv6Address::fromString($network));
 
         self::assertFalse($subject->containsAddress($address));
+    }
+
+    public function testShouldCompareEquality(): void
+    {
+        $first  = new IPv6Network(CIDRv6Address::fromString('::1/10'));
+        $second = new IPv6Network(CIDRv6Address::fromString('::1/10'));
+
+        self::assertNotSame($first, $second);
+        self::assertTrue($first->equals($second));
+    }
+
+    public function provideInequalityTestData(): iterable
+    {
+        return [
+            'different network' => ['::1/10', new IPv6Network(CIDRv6Address::fromString('::1/8'))],
+            'different type' => ['::1/10', new IPv4Network(CIDRv4Address::fromString('127.0.0.1/8'))],
+            'cidr' => ['::1/10', CIDRv6Address::fromString('::1/10')],
+        ];
+    }
+
+    /** @dataProvider provideInequalityTestData */
+    public function testShouldNotMatchInequality(string $subject, Address $other): void
+    {
+        self::assertFalse((new IPv6Network(CIDRv6Address::fromString($subject)))->equals($other));
     }
 }
