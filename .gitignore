@@ -1,8 +1,5 @@
+/.build/
 /vendor/
 /.idea/
-/.phpunit.result.cache
-/.phpcs-cache
 /cc-test-reporter
-/infections/
-/infection.log
 /coverage/
