@@ -32,8 +32,11 @@
     "scripts": {
         "test": "phpunit --testdox",
         "analyse": "psalm",
-        "cs-check": "phpcs",
-        "infection-test": "infection --min-msi=84 --min-covered-msi=86",
+        "cs-check": [
+            "mkdir -p .build/php_codesniffer/",
+            "phpcs"
+        ],
+        "infection-test": "infection",
         "check": [
             "@test",
             "@analyse",

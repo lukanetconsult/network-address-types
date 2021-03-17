@@ -1,13 +1,16 @@
 {
+    "ignoreMsiWithNoMutations": true,
+    "minCoveredMsi": 86,
+    "minMsi": 83,
     "source": {
         "directories": [
             "src"
         ]
     },
     "timeout": 10,
-    "tmpDir": "./infections",
+    "tmpDir": ".build/infection/",
     "logs": {
-        "text": "infection.log",
+        "text": ".build/infection/infection-log.txt",
         "badge": {
             "branch": "master"
         }
