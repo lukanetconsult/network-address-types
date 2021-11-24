@@ -2,6 +2,7 @@
 /.idea/
 /.phpunit.result.cache
 /.phpcs-cache
+/.build/
 /cc-test-reporter
 /infections/
 /infection.log

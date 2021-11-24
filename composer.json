@@ -20,19 +20,22 @@
         }
     },
     "require": {
-        "php": "^7.4",
+        "php": "~8.0.0",
         "ext-gmp": "*",
         "ext-json": "*"
     },
     "require-dev": {
-        "doctrine/coding-standard": "^8.2.0",
-        "phpunit/phpunit": "^8.5",
-        "vimeo/psalm": "^3.8"
+        "doctrine/coding-standard": "^9.0.0",
+        "phpunit/phpunit": "^9.5.10",
+        "vimeo/psalm": "^4.13.1"
     },
     "scripts": {
         "test": "phpunit --testdox",
         "analyse": "psalm",
-        "cs-check": "phpcs",
+        "cs-check": [
+            "mkdir -p .build/php_codesniffer/",
+            "phpcs"
+        ],
         "infection-test": "infection --min-msi=84 --min-covered-msi=86",
         "check": [
             "@test",
