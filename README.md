@@ -1,6 +1,5 @@
 # Network Address Types for PHP
 
-[![Build Status](https://travis-ci.org/lukanetconsult/network-address-types.svg?branch=master)](https://travis-ci.org/lukanetconsult/network-address-types)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/0d4cfe36cf57a502bb8d/test_coverage)](https://codeclimate.com/github/lukanetconsult/network-address-types/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/0d4cfe36cf57a502bb8d/maintainability)](https://codeclimate.com/github/lukanetconsult/network-address-types/maintainability)
 [![Infection MSI](https://badge.stryker-mutator.io/github.com/lukanetconsult/network-address-types/master)](https://infection.github.io)
@@ -26,7 +25,9 @@ composer require luka/network-address-types
 
 ### Requirements
 
- - PHP >= 7.4
+ - PHP
+   - 7.4 (until version 1.1.0)
+   - 8.0
  - `ext-gmp` for handling IPv6 calculations
  - `ext-json` as it supports json_encode by implementing `JSONSerializable`
  
