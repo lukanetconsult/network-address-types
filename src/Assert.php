@@ -6,7 +6,6 @@ namespace LUKA\Network;
 
 use InvalidArgumentException;
 
-use function get_class;
 use function gettype;
 use function is_int;
 use function is_numeric;
@@ -22,12 +21,10 @@ use function strpos;
 class Assert
 {
     /**
-     * @param mixed $value
-     *
      * @psalm-pure
      * @psalm-assert string $value
      */
-    public static function string($value, ?string $message = null): void
+    public static function string(mixed $value, ?string $message = null): void
     {
         if (is_string($value)) {
             return;
@@ -37,12 +34,10 @@ class Assert
     }
 
     /**
-     * @param mixed $value
-     *
      * @psalm-pure
      * @psalm-assert int $value
      */
-    public static function integer($value, ?string $message = null): void
+    public static function integer(mixed $value, ?string $message = null): void
     {
         if (is_int($value)) {
             return;
@@ -76,12 +71,10 @@ class Assert
     }
 
     /**
-     * @param string|int $value
-     *
      * @psalm-pure
      * @psalm-assert numeric $value
      */
-    public static function integerish($value, ?string $message = null): void
+    public static function integerish(string|int $value, ?string $message = null): void
     {
         // phpcs:disable SlevomatCodingStandard.Operators.DisallowEqualOperators
         if (is_numeric($value) && $value == (int)$value) {
@@ -117,11 +110,9 @@ class Assert
     }
 
     /**
-     * @param float|int|string ...$args
-     *
      * @psalm-pure
      */
-    private static function throwInvalidArgument(string $message, ...$args): void
+    private static function throwInvalidArgument(string $message, float|int|string ...$args): void
     {
         throw new InvalidArgumentException(
             sprintf(
@@ -132,12 +123,10 @@ class Assert
     }
 
     /**
-     * @param mixed $value
-     *
      * @psalm-pure
      */
-    private static function typeStringFor($value): string
+    private static function typeStringFor(mixed $value): string
     {
-        return is_object($value) ? get_class($value) : gettype($value);
+        return is_object($value) ? $value::class : gettype($value);
     }
 }

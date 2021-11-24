@@ -53,14 +53,15 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
     }
 
     /**
-     * @psalm-pure
      * @psalm-return self
+     *
+     * @psalm-pure
      */
-    public static function fromString(string $value): self
+    public static function fromString(string $address): self
     {
-        Assert::regex($value, self::MAC_ADDRESS_FORMAT, 'Invalid mac address: "%s"');
+        Assert::regex($address, self::MAC_ADDRESS_FORMAT, 'Invalid mac address: "%s"');
 
-        return new self(gmp_init(strtr($value, [':' => '', '-' => '']), 16));
+        return new self(gmp_init(strtr($address, [':' => '', '-' => '']), 16));
     }
 
     /**

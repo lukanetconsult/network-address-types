@@ -28,8 +28,9 @@ final class CIDRv4Address extends CIDRAddress implements JsonSerializable
     }
 
     /**
-     * @psalm-pure
      * @psalm-return self
+     *
+     * @psalm-pure
      */
     public static function fromString(string $address): self
     {

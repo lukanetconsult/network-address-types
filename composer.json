@@ -32,6 +32,7 @@
     "scripts": {
         "test": "phpunit --testdox",
         "analyse": "psalm",
+        "cs-fix": "phpcbf",
         "cs-check": [
             "mkdir -p .build/php_codesniffer/",
             "phpcs"

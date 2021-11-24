@@ -37,8 +37,9 @@ final class IPv6Address extends IPAddress implements JsonSerializable
     }
 
     /**
-     * @psalm-pure
      * @psalm-return self
+     *
+     * @psalm-pure
      */
     public static function fromString(string $address): self
     {
