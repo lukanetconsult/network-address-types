@@ -124,7 +124,7 @@ jobs:
     runs-on: "ubuntu-latest"
 
     env:
-      COLLECT_COVERAGE_VERSION: "8.0"
+      COLLECT_COVERAGE_VERSION: "8.2"
 
     strategy:
       matrix:
@@ -135,8 +135,11 @@ jobs:
 
         dependencies:
           - "lowest"
-          - "locked"
           - "highest"
+
+        include:
+          - php-version: "8.2"
+            dependencies: "locked"
 
     steps:
       - name: "Checkout"
