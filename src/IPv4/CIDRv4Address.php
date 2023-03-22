@@ -36,6 +36,7 @@ final class CIDRv4Address extends CIDRAddress implements JsonSerializable
     {
         Assert::contains($address, '/', 'Invalid cidr address format');
 
+        /** @psalm-suppress PossiblyUndefinedArrayOffset */
         [$ipAddress, $prefix] = explode('/', $address, 2);
 
         Assert::integerish($prefix, 'Invalid cidr address prefix "%s"');

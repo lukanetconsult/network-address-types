@@ -7,6 +7,7 @@ namespace LUKA\Network;
 use GMP;
 use JsonSerializable;
 
+use function assert;
 use function bin2hex;
 use function gmp_add;
 use function gmp_cmp;
@@ -86,11 +87,14 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
         Assert::regex($prefix, '/^([a-f0-9]{2}){0,3}$/i', 'Invalid mac address prefix: "%s"');
 
         $prefixLength = strlen($prefix);
+        $randomLength = 6 - (int)($prefixLength / 2);
+
+        assert($randomLength > 0);
 
         return new MACAddress(
             gmp_add(
                 gmp_init($prefix . str_repeat('0', 12 - $prefixLength), 16),
-                gmp_init(bin2hex(random_bytes(6 - (int)($prefixLength / 2))), 16),
+                gmp_init(bin2hex(random_bytes($randomLength)), 16),
             )
         );
     }
