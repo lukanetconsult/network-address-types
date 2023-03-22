@@ -28,6 +28,8 @@ composer require luka/network-address-types
  - PHP
    - 7.4 (until version 1.1.0)
    - 8.0
+   - 8.1
+   - 8.2
  - `ext-gmp` for handling IPv6 calculations
  - `ext-json` as it supports json_encode by implementing `JSONSerializable`
  
