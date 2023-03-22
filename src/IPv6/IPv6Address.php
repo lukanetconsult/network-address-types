@@ -24,16 +24,11 @@ use function strlen;
 use const GMP_MSW_FIRST;
 use const STR_PAD_LEFT;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 final class IPv6Address extends IPAddress implements JsonSerializable
 {
-    private GMP $address;
-
-    public function __construct(GMP $address)
+    public function __construct(private GMP $address)
     {
-        $this->address = $address;
     }
 
     /**
@@ -57,9 +52,7 @@ final class IPv6Address extends IPAddress implements JsonSerializable
         return self::fromBinary($bytes);
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function fromBinary(string $bytes): self
     {
         Assert::lessThanEq(strlen($bytes), 16, 'Invalid IPv6 address length: %d bytes');
@@ -73,7 +66,7 @@ final class IPv6Address extends IPAddress implements JsonSerializable
             gmp_export($this->address, 1, GMP_MSW_FIRST),
             16,
             "\x00",
-            STR_PAD_LEFT
+            STR_PAD_LEFT,
         );
     }
 

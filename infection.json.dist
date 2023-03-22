@@ -8,8 +8,8 @@
     "tmpDir": ".build/infections",
     "logs": {
         "text": ".build/infection/infection-log.txt",
-        "badge": {
-            "branch": "master"
+        "stryker": {
+            "report": "/^(master|develop|([0-9]+\\.)+x)$/"
         }
     },
     "mutators": {

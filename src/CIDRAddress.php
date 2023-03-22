@@ -6,16 +6,11 @@ namespace LUKA\Network;
 
 use function strpos;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 abstract class CIDRAddress extends NetworkAddress
 {
-    protected int $prefixLength;
-
-    protected function __construct(int $prefixLength)
+    protected function __construct(protected int $prefixLength)
     {
-        $this->prefixLength = $prefixLength;
     }
 
     /**

@@ -68,7 +68,7 @@ class CIDRv4AddressTest extends TestCase
         self::assertTrue(
             CIDRv4Address::fromString('128.6.119.56/24')
                 ->toAddress()
-                ->equals(IPv4Address::fromString('128.6.119.56'))
+                ->equals(IPv4Address::fromString('128.6.119.56')),
         );
     }
 

@@ -30,7 +30,7 @@ class CIDRAddressTest extends TestCase
     public function testShouldConstructFromString(
         string $address,
         string $expectedClass,
-        ?string $expectedToString = null
+        string|null $expectedToString = null,
     ): void {
         $result = CIDRAddress::fromString($address);
 

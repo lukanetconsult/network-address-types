@@ -20,14 +20,14 @@
         }
     },
     "require": {
-        "php": "~8.0.0",
+        "php": "~8.2.0 | ~8.1.0 | ~8.0.0",
         "ext-gmp": "*",
         "ext-json": "*"
     },
     "require-dev": {
-        "doctrine/coding-standard": "^9.0.0",
+        "doctrine/coding-standard": "^11.0",
         "phpunit/phpunit": "^9.5.10",
-        "vimeo/psalm": "^4.13.1"
+        "vimeo/psalm": "^5.8"
     },
     "scripts": {
         "test": "phpunit --testdox",
@@ -45,7 +45,10 @@
         ]
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "extra": {
         "branch-alias": {

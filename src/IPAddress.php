@@ -6,9 +6,7 @@ namespace LUKA\Network;
 
 use function strpos;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 abstract class IPAddress extends NetworkAddress
 {
     /**

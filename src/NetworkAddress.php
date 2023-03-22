@@ -7,9 +7,7 @@ namespace LUKA\Network;
 use function preg_match;
 use function strpos;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 abstract class NetworkAddress implements Address
 {
     private const MAC_ADDRESS_FORMAT = '/^[0-9a-f]{2}([:-]?[0-9a-f]{2}){5}$/i';

@@ -97,7 +97,7 @@ class IPv4AddressTest extends TestCase
         self::assertSame(0x7f000001, $int);
         self::assertSame(
             '127.0.0.1',
-            (new IPv4Address($int))->toString()
+            (new IPv4Address($int))->toString(),
         );
     }
 
@@ -123,8 +123,8 @@ class IPv4AddressTest extends TestCase
 
         self::assertTrue(
             $subject->equals(
-                IPv4Address::fromString(json_decode($json))
-            )
+                IPv4Address::fromString(json_decode($json)),
+            ),
         );
     }
 }

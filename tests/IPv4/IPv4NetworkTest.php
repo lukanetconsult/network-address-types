@@ -27,7 +27,7 @@ class IPv4NetworkTest extends TestCase
     {
         self::assertTrue(
             (new IPv4Network(CIDRv4Address::fromString('88.154.76.23/24')))
-                ->containsAddress(IPv4Address::fromString('88.154.76.23'))
+                ->containsAddress(IPv4Address::fromString('88.154.76.23')),
         );
     }
 

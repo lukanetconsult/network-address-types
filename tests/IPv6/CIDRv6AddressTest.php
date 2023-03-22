@@ -57,7 +57,7 @@ class CIDRv6AddressTest extends TestCase
             '2004:6fe8::4',
             CIDRv6Address::fromString('2004:6fe8::4/64')
                 ->toAddress()
-                ->toString()
+                ->toString(),
         );
     }
 
@@ -94,7 +94,7 @@ class CIDRv6AddressTest extends TestCase
 
         self::assertSame(
             '2004:6fe8::/64',
-            $subject->toNetwork()->toString()
+            $subject->toNetwork()->toString(),
         );
     }
 
@@ -105,7 +105,7 @@ class CIDRv6AddressTest extends TestCase
 
         self::assertSame(
             $subject->toString(),
-            CIDRv6Address::fromString(json_decode($json))->toString()
+            CIDRv6Address::fromString(json_decode($json))->toString(),
         );
     }
 

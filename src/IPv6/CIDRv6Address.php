@@ -12,19 +12,14 @@ use LUKA\Network\CIDRAddress;
 use function explode;
 use function sprintf;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 final class CIDRv6Address extends CIDRAddress implements JsonSerializable
 {
-    private IPv6Address $address;
-
-    public function __construct(IPv6Address $address, int $prefixLength)
+    public function __construct(private IPv6Address $address, int $prefixLength)
     {
         Assert::range($prefixLength, 0, 128, 'Invalid ip v6 prefix: %d');
 
         parent::__construct($prefixLength);
-        $this->address = $address;
     }
 
     /**
@@ -36,13 +31,14 @@ final class CIDRv6Address extends CIDRAddress implements JsonSerializable
     {
         Assert::contains($address, '/', 'Invalid cidr address format');
 
+        /** @psalm-suppress PossiblyUndefinedArrayOffset */
         [$ipAddress, $prefix] = explode('/', $address, 2);
 
         Assert::integerish($prefix, 'Invalid cidr address prefix "%s"');
 
         return new self(
             IPv6Address::fromString($ipAddress),
-            (int)$prefix
+            (int)$prefix,
         );
     }
 

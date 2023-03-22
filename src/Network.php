@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace LUKA\Network;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 interface Network extends Address
 {
     public function getRangeMinAddress(): CIDRAddress;
