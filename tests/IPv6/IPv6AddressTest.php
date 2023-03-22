@@ -58,7 +58,7 @@ class IPv6AddressTest extends TestCase
     {
         self::assertSame(
             str_pad("\x01", 16, "\x00", STR_PAD_LEFT),
-            IPv6Address::fromString('::1')->toByteString()
+            IPv6Address::fromString('::1')->toByteString(),
         );
     }
 
@@ -66,7 +66,7 @@ class IPv6AddressTest extends TestCase
     {
         self::assertSame(
             '::1',
-            IPv6Address::fromBinary("\x01")->toString()
+            IPv6Address::fromBinary("\x01")->toString(),
         );
     }
 
@@ -115,7 +115,7 @@ class IPv6AddressTest extends TestCase
 
         self::assertSame(
             $subject->toString(),
-            IPv6Address::fromString(json_decode($json))->toString()
+            IPv6Address::fromString(json_decode($json))->toString(),
         );
     }
 }

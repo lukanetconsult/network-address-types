@@ -19,9 +19,7 @@ use function str_repeat;
 
 use const STR_PAD_RIGHT;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 final class IPv6Network implements Network
 {
     private CIDRv6Address $cidr;
@@ -36,10 +34,10 @@ final class IPv6Network implements Network
             new IPv6Address(
                 gmp_and(
                     $cidr->toAddress()->toNumber(),
-                    $this->netmask
-                )
+                    $this->netmask,
+                ),
             ),
-            $prefix
+            $prefix,
         );
     }
 
@@ -65,10 +63,10 @@ final class IPv6Network implements Network
                 new IPv6Address(
                     gmp_add(
                         $this->cidr->toAddress()->toNumber(),
-                        gmp_init('1', 2)
-                    )
+                        gmp_init('1', 2),
+                    ),
                 ),
-                $prefix
+                $prefix,
             );
     }
 
@@ -82,10 +80,10 @@ final class IPv6Network implements Network
                 new IPv6Address(
                     gmp_add(
                         $this->cidr->toAddress()->toNumber(),
-                        gmp_init(str_repeat('1', 128 - $prefix), 2)
-                    )
+                        gmp_init(str_repeat('1', 128 - $prefix), 2),
+                    ),
                 ),
-                $prefix
+                $prefix,
             );
     }
 
@@ -95,9 +93,9 @@ final class IPv6Network implements Network
             && gmp_cmp(
                 gmp_and(
                     $address->toNumber(),
-                    $this->netmask
+                    $this->netmask,
                 ),
-                $this->cidr->toAddress()->toNumber()
+                $this->cidr->toAddress()->toNumber(),
             ) === 0;
     }
 

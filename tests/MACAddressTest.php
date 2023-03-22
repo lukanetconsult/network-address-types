@@ -62,7 +62,7 @@ class MACAddressTest extends TestCase
 
         self::assertSame(
             $subject->toString(),
-            MACAddress::fromString(json_decode($json))->toString()
+            MACAddress::fromString(json_decode($json))->toString(),
         );
     }
 
@@ -73,7 +73,7 @@ class MACAddressTest extends TestCase
 
         self::assertNotSame(
             $first->toString(),
-            $second->toString()
+            $second->toString(),
         );
     }
 
@@ -85,7 +85,7 @@ class MACAddressTest extends TestCase
 
         self::assertNotSame(
             $first->toString(),
-            $second->toString()
+            $second->toString(),
         );
 
         self::assertStringStartsWith('20:00:00', $first->toString());
@@ -96,7 +96,7 @@ class MACAddressTest extends TestCase
     {
         self::assertSame(
             "\x20\x00\x00\x00\x00\x01",
-            MACAddress::fromString('20:00:00:00:00:01')->toByteString()
+            MACAddress::fromString('20:00:00:00:00:01')->toByteString(),
         );
     }
 

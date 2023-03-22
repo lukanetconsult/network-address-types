@@ -14,17 +14,12 @@ use function long2ip;
 use function pack;
 use function unpack;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 final class IPv4Address extends IPAddress implements JsonSerializable
 {
-    private int $address;
-
-    public function __construct(int $address)
+    public function __construct(private int $address)
     {
         Assert::lessThanEq($address, 0xffffffff, 'Invalid IP-Address value "0x%x" (overflow).');
-        $this->address = $address;
     }
 
     /**
@@ -41,9 +36,7 @@ final class IPv4Address extends IPAddress implements JsonSerializable
         return new self($value);
     }
 
-    /**
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function fromByteString(string $bytes): self
     {
         /** @psalm-var int $address */

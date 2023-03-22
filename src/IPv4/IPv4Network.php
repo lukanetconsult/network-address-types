@@ -8,9 +8,7 @@ use LUKA\Network\Address;
 use LUKA\Network\IPAddress;
 use LUKA\Network\Network;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 final class IPv4Network implements Network
 {
     private CIDRv4Address $cidr;
@@ -23,9 +21,9 @@ final class IPv4Network implements Network
         $this->netmask = -1 << 32 - $prefixLength & 0xffffffff;
         $this->cidr    = new CIDRv4Address(
             new IPv4Address(
-                $cidr->toAddress()->toInt() & $this->netmask
+                $cidr->toAddress()->toInt() & $this->netmask,
             ),
-            $prefixLength
+            $prefixLength,
         );
     }
 
@@ -48,7 +46,7 @@ final class IPv4Network implements Network
             ? $this->cidr
             : new CIDRv4Address(
                 new IPv4Address($this->cidr->toAddress()->toInt() + 1),
-                $prefix
+                $prefix,
             );
     }
 
@@ -64,7 +62,7 @@ final class IPv4Network implements Network
 
         return new CIDRv4Address(
             new IPv4Address($this->cidr->toAddress()->toInt() | $max),
-            $prefix
+            $prefix,
         );
     }
 
@@ -83,9 +81,9 @@ final class IPv4Network implements Network
     {
         return new CIDRv4Address(
             new IPv4Address(
-                $this->cidr->toAddress()->toInt() | (0xffffffff & ~$this->netmask)
+                $this->cidr->toAddress()->toInt() | (0xffffffff & ~$this->netmask),
             ),
-            $this->cidr->getPrefixLength()
+            $this->cidr->getPrefixLength(),
         );
     }
 }

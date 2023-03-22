@@ -28,28 +28,23 @@ use function substr;
 use const GMP_MSW_FIRST;
 use const STR_PAD_LEFT;
 
-/**
- * @psalm-immutable
- */
+/** @psalm-immutable */
 final class MACAddress extends NetworkAddress implements JsonSerializable
 {
     public const MAC_ADDRESS_FORMAT = '/^[0-9a-f]{2}([:-]?[0-9a-f]{2}){5}$/i';
 
-    private GMP $address;
-
     private string $vendorId;
 
-    public function __construct(GMP $address)
+    public function __construct(private GMP $address)
     {
         $binary = gmp_export($address, 1, GMP_MSW_FIRST);
 
         Assert::lessThanEq(
             strlen($binary),
             6,
-            sprintf('Invalid mac address value "%s" (overflow).', gmp_strval($address, 16))
+            sprintf('Invalid mac address value "%s" (overflow).', gmp_strval($address, 16)),
         );
 
-        $this->address  = $address;
         $this->vendorId = bin2hex(substr($binary, 0, 3));
     }
 
@@ -79,8 +74,8 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
             return new MACAddress(
                 gmp_or(
                     gmp_init(bin2hex(random_bytes(6)), 16),
-                    gmp_init('020000000000', 16)
-                )
+                    gmp_init('020000000000', 16),
+                ),
             );
         }
 
@@ -95,7 +90,7 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
             gmp_add(
                 gmp_init($prefix . str_repeat('0', 12 - $prefixLength), 16),
                 gmp_init(bin2hex(random_bytes($randomLength)), 16),
-            )
+            ),
         );
     }
 

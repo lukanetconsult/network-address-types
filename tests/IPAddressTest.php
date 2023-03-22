@@ -30,7 +30,7 @@ class IPAddressTest extends TestCase
     public function testShouldConstructFromString(
         string $address,
         string $expectedClass,
-        ?string $expectedToString = null
+        string|null $expectedToString = null,
     ): void {
         $result = IPAddress::fromString($address);
 
