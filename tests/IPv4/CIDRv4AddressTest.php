@@ -11,11 +11,12 @@ use LUKA\Network\IPv4\IPv4Address;
 use LUKA\Network\IPv4\IPv4Network;
 use LUKA\Network\IPv6\IPv6Address;
 use LUKA\Network\MACAddress;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CIDRv4AddressTest extends TestCase
 {
-    public function provideValidValues(): iterable
+    public static function provideValidValues(): iterable
     {
         $list = [
             '0.0.0.0/0',
@@ -30,7 +31,7 @@ class CIDRv4AddressTest extends TestCase
         }
     }
 
-    public function provideInvalidValues(): iterable
+    public static function provideInvalidValues(): iterable
     {
         $list = [
             'a.7.s.s',
@@ -49,14 +50,14 @@ class CIDRv4AddressTest extends TestCase
         }
     }
 
-    /** @dataProvider provideValidValues */
+    #[DataProvider('provideValidValues')]
     public function testShouldAcceptValidAddresses(string $fixture): void
     {
         $subject = CIDRv4Address::fromString($fixture);
         self::assertSame($fixture, $subject->toString());
     }
 
-    /** @dataProvider provideInvalidValues */
+    #[DataProvider('provideInvalidValues')]
     public function testShouldThrowOnInvalidAddresses(string $fixture): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -87,7 +88,7 @@ class CIDRv4AddressTest extends TestCase
         self::assertTrue($subject->equals($other));
     }
 
-    public function provideUnequalAddresses(): iterable
+    public static function provideUnequalAddresses(): iterable
     {
         return [
             'different prefix' => ['128.6.119.56/24', CIDRv4Address::fromString('128.6.119.56/25')],
@@ -97,7 +98,7 @@ class CIDRv4AddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideUnequalAddresses */
+    #[DataProvider('provideUnequalAddresses')]
     public function testShouldNotMatchInequality(string $address, Address $other): void
     {
         $subject = CIDRv4Address::fromString($address);

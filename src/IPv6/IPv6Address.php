@@ -9,7 +9,9 @@ use JsonSerializable;
 use LUKA\Network\Address;
 use LUKA\Network\Assert;
 use LUKA\Network\IPAddress;
+use Override;
 
+use function assert;
 use function bin2hex;
 use function gmp_cmp;
 use function gmp_export;
@@ -36,6 +38,7 @@ final class IPv6Address extends IPAddress implements JsonSerializable
      *
      * @psalm-pure
      */
+    #[Override]
     public static function fromString(string $address): self
     {
         // Special NULL-Address notation
@@ -60,6 +63,7 @@ final class IPv6Address extends IPAddress implements JsonSerializable
         return new self(gmp_init(bin2hex($bytes), 16));
     }
 
+    #[Override]
     public function toByteString(): string
     {
         return str_pad(
@@ -70,11 +74,20 @@ final class IPv6Address extends IPAddress implements JsonSerializable
         );
     }
 
+    #[Override]
     public function toString(): string
     {
-        return $this->isNull() ? '::' : inet_ntop($this->toByteString());
+        if ($this->isNull()) {
+            return '::';
+        }
+
+        $formatted = inet_ntop($this->toByteString());
+        assert($formatted !== false);
+
+        return $formatted;
     }
 
+    #[Override]
     public function equals(Address $other): bool
     {
         return $other instanceof self
@@ -91,6 +104,7 @@ final class IPv6Address extends IPAddress implements JsonSerializable
         return $this->address;
     }
 
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toString();

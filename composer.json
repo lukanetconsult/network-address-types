@@ -17,17 +17,21 @@
     "autoload-dev": {
         "psr-4": {
             "LUKATest\\Network\\": "tests/"
-        }
+        },
+        "classmap": [
+            "shim/override.attribute.php",
+            "shim/deprecated.attribute.php"
+        ]
     },
     "require": {
-        "php": "~8.2.0 | ~8.1.0 | ~8.0.0",
+        "php": "8.2 - 8.4",
         "ext-gmp": "*",
         "ext-json": "*"
     },
     "require-dev": {
-        "doctrine/coding-standard": "^11.0",
-        "phpunit/phpunit": "^9.5.10",
-        "vimeo/psalm": "^5.8"
+        "doctrine/coding-standard": "^13.0.1",
+        "phpunit/phpunit": "^10.5",
+        "vimeo/psalm": "^6"
     },
     "scripts": {
         "test": "phpunit --testdox",

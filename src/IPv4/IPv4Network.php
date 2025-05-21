@@ -7,6 +7,7 @@ namespace LUKA\Network\IPv4;
 use LUKA\Network\Address;
 use LUKA\Network\IPAddress;
 use LUKA\Network\Network;
+use Override;
 
 /** @psalm-immutable */
 final class IPv4Network implements Network
@@ -27,17 +28,20 @@ final class IPv4Network implements Network
         );
     }
 
+    #[Override]
     public function toString(): string
     {
         return $this->cidr->toString();
     }
 
+    #[Override]
     public function equals(Address $other): bool
     {
         return $other instanceof self
             && $this->cidr->equals($other->cidr);
     }
 
+    #[Override]
     public function getRangeMinAddress(): CIDRv4Address
     {
         $prefix = $this->cidr->getPrefixLength();
@@ -50,6 +54,7 @@ final class IPv4Network implements Network
             );
     }
 
+    #[Override]
     public function getRangeMaxAddress(): CIDRv4Address
     {
         $prefix = $this->cidr->getPrefixLength();
@@ -66,12 +71,14 @@ final class IPv4Network implements Network
         );
     }
 
+    #[Override]
     public function containsAddress(IPAddress $address): bool
     {
         return $address instanceof IPv4Address
             && $this->cidr->toAddress()->toInt() === ($address->toInt() & $this->netmask);
     }
 
+    #[Override]
     public function toCidrAddress(): CIDRv4Address
     {
         return $this->cidr;

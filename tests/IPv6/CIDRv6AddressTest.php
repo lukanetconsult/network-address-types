@@ -9,6 +9,7 @@ use LUKA\Network\Address;
 use LUKA\Network\IPv6\CIDRv6Address;
 use LUKA\Network\IPv6\IPv6Address;
 use LUKA\Network\MACAddress;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function json_decode;
@@ -16,7 +17,7 @@ use function json_encode;
 
 class CIDRv6AddressTest extends TestCase
 {
-    public function provideValidStringInput(): iterable
+    public static function provideValidStringInput(): iterable
     {
         return [
             '2004:6fe8::/64' => ['2004:6fe8::/64', '2004:6fe8::/64'],
@@ -25,14 +26,14 @@ class CIDRv6AddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideValidStringInput */
+    #[DataProvider('provideValidStringInput')]
     public function testShouldConstructFromString(string $input, string $expected): void
     {
         $subject = CIDRv6Address::fromString($input);
         self::assertSame($expected, $subject->toString());
     }
 
-    public function provideInvalidStringInput(): iterable
+    public static function provideInvalidStringInput(): iterable
     {
         return [
             'empty string' => [''],
@@ -44,8 +45,8 @@ class CIDRv6AddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideInvalidStringInput */
-    public function testShouldThrowInvalidArgumentOnnvalidStringInput(string $input): void
+    #[DataProvider('provideInvalidStringInput')]
+    public function testShouldThrowInvalidArgumentOnInvalidStringInput(string $input): void
     {
         $this->expectException(InvalidArgumentException::class);
         CIDRv6Address::fromString($input);
@@ -70,7 +71,7 @@ class CIDRv6AddressTest extends TestCase
         self::assertTrue($subject->equals($other));
     }
 
-    public function provideUnequalAddresses(): iterable
+    public static function provideUnequalAddresses(): iterable
     {
         return [
             'different prefix' => ['2004:6fe8::4/64', CIDRv6Address::fromString('2004:6fe8::4/65')],
@@ -80,7 +81,7 @@ class CIDRv6AddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideUnequalAddresses */
+    #[DataProvider('provideUnequalAddresses')]
     public function testShouldNotMatchInequality(string $input, Address $other): void
     {
         $subject = CIDRv6Address::fromString($input);

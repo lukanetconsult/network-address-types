@@ -41,4 +41,11 @@
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
         <exclude-pattern>tests/*</exclude-pattern>
     </rule>
+
+    <!-- disable until min supported version is 8.3 -->
+    <rule ref="SlevomatCodingStandard.TypeHints.ClassConstantTypeHint">
+        <properties>
+            <property name="enableNativeTypeHint" value="false" />
+        </properties>
+    </rule>
 </ruleset>

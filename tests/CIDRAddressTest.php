@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use LUKA\Network\CIDRAddress;
 use LUKA\Network\IPv4\CIDRv4Address;
 use LUKA\Network\IPv6\CIDRv6Address;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CIDRAddressTest extends TestCase
@@ -18,7 +19,7 @@ class CIDRAddressTest extends TestCase
         CIDRAddress::fromString('hello world');
     }
 
-    public function provideFromStringTestData(): iterable
+    public static function provideFromStringTestData(): iterable
     {
         return [
             'cidr v4' => ['192.168.0.0/24', CIDRv4Address::class],
@@ -26,7 +27,7 @@ class CIDRAddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideFromStringTestData */
+    #[DataProvider('provideFromStringTestData')]
     public function testShouldConstructFromString(
         string $address,
         string $expectedClass,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LUKA\Network;
 
 use function preg_match;
-use function strpos;
+use function str_contains;
 
 /** @psalm-immutable */
 abstract class NetworkAddress implements Address
@@ -23,7 +23,7 @@ abstract class NetworkAddress implements Address
             return MACAddress::fromString($address);
         }
 
-        return strpos($address, '/') !== false
+        return str_contains($address, '/')
             ? CIDRAddress::fromString($address)
             : IPAddress::fromString($address);
     }

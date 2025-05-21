@@ -8,6 +8,7 @@ use JsonSerializable;
 use LUKA\Network\Address;
 use LUKA\Network\Assert;
 use LUKA\Network\CIDRAddress;
+use Override;
 
 use function explode;
 use function sprintf;
@@ -27,6 +28,7 @@ final class CIDRv4Address extends CIDRAddress implements JsonSerializable
      *
      * @psalm-pure
      */
+    #[Override]
     public static function fromString(string $address): self
     {
         Assert::contains($address, '/', 'Invalid cidr address format');
@@ -42,21 +44,25 @@ final class CIDRv4Address extends CIDRAddress implements JsonSerializable
         );
     }
 
+    #[Override]
     public function toAddress(): IPv4Address
     {
         return $this->address;
     }
 
+    #[Override]
     public function toNetwork(): IPv4Network
     {
         return new IPv4Network($this);
     }
 
+    #[Override]
     public function toString(): string
     {
         return sprintf('%s/%d', $this->address->toString(), $this->prefixLength);
     }
 
+    #[Override]
     public function equals(Address $other): bool
     {
         return $other instanceof self
@@ -64,6 +70,7 @@ final class CIDRv4Address extends CIDRAddress implements JsonSerializable
             && $this->prefixLength === $other->prefixLength;
     }
 
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toString();

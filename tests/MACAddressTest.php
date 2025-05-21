@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use LUKA\Network\Address;
 use LUKA\Network\IPv6\IPv6Address;
 use LUKA\Network\MACAddress;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function json_decode;
@@ -26,7 +27,7 @@ class MACAddressTest extends TestCase
         self::assertSame('dc0ea1', MACAddress::fromString('dc:0e:a1:6e:08:c2')->getVendorID());
     }
 
-    public function provideInvalidStringInput(): iterable
+    public static function provideInvalidStringInput(): iterable
     {
         return [
             'empty string' => [''],
@@ -36,7 +37,7 @@ class MACAddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideInvalidStringInput */
+    #[DataProvider('provideInvalidStringInput')]
     public function testShouldThrowWhenConstructedFromInvalidStringAddress(string $input): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -109,7 +110,7 @@ class MACAddressTest extends TestCase
         self::assertTrue($first->equals($second));
     }
 
-    public function provideInequalityTestData(): iterable
+    public static function provideInequalityTestData(): iterable
     {
         return [
             'different address' => ['20:00:00:00:00:01', MACAddress::fromString('20:00:00:00:00:02')],
@@ -117,7 +118,7 @@ class MACAddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideInequalityTestData */
+    #[DataProvider('provideInequalityTestData')]
     public function testShouldNotMatchInequality(string $subject, Address $other): void
     {
         self::assertFalse(MACAddress::fromString($subject)->equals($other));

@@ -5,6 +5,7 @@
     xmlns="https://getpsalm.org/schema/config"
     totallyTyped="true"
     resolveFromConfigFile="true"
+    findUnusedCode="false"
     cacheDirectory=".build/psalm">
 
     <projectFiles>

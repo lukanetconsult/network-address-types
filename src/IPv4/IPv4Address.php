@@ -8,8 +8,11 @@ use JsonSerializable;
 use LUKA\Network\Address;
 use LUKA\Network\Assert;
 use LUKA\Network\IPAddress;
+use Override;
 
+use function assert;
 use function ip2long;
+use function is_int;
 use function long2ip;
 use function pack;
 use function unpack;
@@ -27,6 +30,7 @@ final class IPv4Address extends IPAddress implements JsonSerializable
      *
      * @psalm-pure
      */
+    #[Override]
     public static function fromString(string $address): self
     {
         $value = ip2long($address);
@@ -39,17 +43,20 @@ final class IPv4Address extends IPAddress implements JsonSerializable
     /** @psalm-pure */
     public static function fromByteString(string $bytes): self
     {
-        /** @psalm-var int $address */
-        $address = unpack('Naddr', $bytes)['addr'];
+        $data = unpack('Naddr', $bytes);
 
-        return new self($address);
+        assert($data !== false && isset($data['addr']) && is_int($data['addr']));
+
+        return new self($data['addr']);
     }
 
+    #[Override]
     public function toString(): string
     {
         return long2ip($this->address);
     }
 
+    #[Override]
     public function equals(Address $other): bool
     {
         return $other instanceof self
@@ -66,11 +73,13 @@ final class IPv4Address extends IPAddress implements JsonSerializable
         return $this->address;
     }
 
+    #[Override]
     public function toByteString(): string
     {
         return pack('N', $this->address);
     }
 
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toString();

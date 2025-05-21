@@ -6,6 +6,7 @@ namespace LUKA\Network;
 
 use GMP;
 use JsonSerializable;
+use Override;
 
 use function assert;
 use function bin2hex;
@@ -53,6 +54,7 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
      *
      * @psalm-pure
      */
+    #[Override]
     public static function fromString(string $address): self
     {
         Assert::regex($address, self::MAC_ADDRESS_FORMAT, 'Invalid mac address: "%s"');
@@ -94,6 +96,7 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
         );
     }
 
+    #[Override]
     public function toString(): string
     {
         $hex      = str_pad(gmp_strval($this->address, 16), 12, '0', STR_PAD_LEFT);
@@ -111,12 +114,14 @@ final class MACAddress extends NetworkAddress implements JsonSerializable
         return gmp_export($this->address, 1, GMP_MSW_FIRST);
     }
 
+    #[Override]
     public function equals(Address $other): bool
     {
         return $other instanceof self
             && gmp_cmp($this->address, $other->address) === 0;
     }
 
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toString();

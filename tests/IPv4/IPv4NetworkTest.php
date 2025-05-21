@@ -10,6 +10,7 @@ use LUKA\Network\IPv4\IPv4Address;
 use LUKA\Network\IPv4\IPv4Network;
 use LUKA\Network\IPv6\CIDRv6Address;
 use LUKA\Network\IPv6\IPv6Network;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class IPv4NetworkTest extends TestCase
@@ -31,7 +32,7 @@ class IPv4NetworkTest extends TestCase
         );
     }
 
-    public function provideRangeTestData(): iterable
+    public static function provideRangeTestData(): iterable
     {
         $data = [
             '88.154.76.23/24' => ['88.154.76.1/24', '88.154.76.254/24'],
@@ -46,7 +47,7 @@ class IPv4NetworkTest extends TestCase
         }
     }
 
-    /** @dataProvider provideRangeTestData */
+    #[DataProvider('provideRangeTestData')]
     public function testShouldProvideCorrectAddressRange(string $input, string $min, string $max): void
     {
         $subject = new IPv4Network(CIDRv4Address::fromString($input));
@@ -64,7 +65,7 @@ class IPv4NetworkTest extends TestCase
         self::assertTrue($first->equals($second));
     }
 
-    public function provideInequalityTestData(): iterable
+    public static function provideInequalityTestData(): iterable
     {
         return [
             'different network' => ['127.0.0.1/8',  new IPv4Network(CIDRv4Address::fromString('127.0.0.1/16'))],
@@ -73,7 +74,7 @@ class IPv4NetworkTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideInequalityTestData */
+    #[DataProvider('provideInequalityTestData')]
     public function testShouldNotMatchInequality(string $subject, Address $other): void
     {
         self::assertFalse((new IPv4Network(CIDRv4Address::fromString($subject)))->equals($other));
