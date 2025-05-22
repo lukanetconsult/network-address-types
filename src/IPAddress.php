@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace LUKA\Network;
 
-use function strpos;
+use Override;
+
+use function str_contains;
 
 /** @psalm-immutable */
 abstract class IPAddress extends NetworkAddress
@@ -14,9 +16,10 @@ abstract class IPAddress extends NetworkAddress
      *
      * @psalm-pure
      */
+    #[Override]
     public static function fromString(string $address): self
     {
-        if (strpos($address, ':') !== false) {
+        if (str_contains($address, ':')) {
             return IPv6\IPv6Address::fromString($address);
         }
 

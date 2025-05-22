@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use LUKA\Network\IPAddress;
 use LUKA\Network\IPv4\IPv4Address;
 use LUKA\Network\IPv6\IPv6Address;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class IPAddressTest extends TestCase
@@ -18,7 +19,7 @@ class IPAddressTest extends TestCase
         IPAddress::fromString('hello world');
     }
 
-    public function provideFromStringTestData(): iterable
+    public static function provideFromStringTestData(): iterable
     {
         return [
             'ip v4' => ['127.0.0.1', IPv4Address::class],
@@ -26,7 +27,7 @@ class IPAddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideFromStringTestData */
+    #[DataProvider('provideFromStringTestData')]
     public function testShouldConstructFromString(
         string $address,
         string $expectedClass,

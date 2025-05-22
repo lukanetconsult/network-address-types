@@ -9,6 +9,7 @@ use LUKA\Network\Address;
 use LUKA\Network\IPv4\CIDRv4Address;
 use LUKA\Network\IPv4\IPv4Address;
 use LUKA\Network\IPv6\IPv6Address;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function json_decode;
@@ -16,7 +17,7 @@ use function json_encode;
 
 class IPv4AddressTest extends TestCase
 {
-    public function provideValidIps(): iterable
+    public static function provideValidIps(): iterable
     {
         $list = [
             '0.0.0.0',
@@ -31,7 +32,7 @@ class IPv4AddressTest extends TestCase
         }
     }
 
-    public function provideInvalidIps(): iterable
+    public static function provideInvalidIps(): iterable
     {
         $list = [
             'a.7.s.s',
@@ -52,14 +53,14 @@ class IPv4AddressTest extends TestCase
         }
     }
 
-    /** @dataProvider provideValidIps */
+    #[DataProvider('provideValidIps')]
     public function testShouldAcceptValidAddresses(string $fixture): void
     {
         $subject = IPv4Address::fromString($fixture);
         self::assertSame($fixture, $subject->toString());
     }
 
-    /** @dataProvider provideInvalidIps */
+    #[DataProvider('provideInvalidIps')]
     public function testShouldThrowOnInvalidAddresses(string $fixture): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -75,7 +76,7 @@ class IPv4AddressTest extends TestCase
         self::assertTrue($first->equals($second));
     }
 
-    public function provideInequalityTestData(): iterable
+    public static function provideInequalityTestData(): iterable
     {
         return [
             'different address' => ['127.0.0.1', IPv4Address::fromString('127.0.0.2')],
@@ -84,7 +85,7 @@ class IPv4AddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideInequalityTestData */
+    #[DataProvider('provideInequalityTestData')]
     public function testShouldNotMatchInequality(string $subject, Address $other): void
     {
         self::assertFalse(IPv4Address::fromString($subject)->equals($other));

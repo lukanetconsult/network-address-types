@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.2"
+          - "8.4"
 
         dependencies:
           - "locked"
@@ -42,7 +42,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.3"
+        uses: "actions/cache@v4.2.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -57,7 +57,7 @@ jobs:
         run: "mkdir -p .build/php_codesniffer"
 
       - name: "Cache cache directory for squizlabs/php_codesniffer"
-        uses: "actions/cache@v2.1.3"
+        uses: "actions/cache@v4.2.3"
         with:
           path: ".build/php_codesniffer"
           key: "php-${{ matrix.php-version }}-php_codesniffer-${{ github.sha }}"
@@ -74,7 +74,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.2"
+          - "8.4"
 
         dependencies:
           - "locked"
@@ -94,7 +94,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.3"
+        uses: "actions/cache@v4.2.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -109,7 +109,7 @@ jobs:
         run: "mkdir -p .build/psalm"
 
       - name: "Cache cache directory for vimeo/psalm"
-        uses: "actions/cache@v2.1.3"
+        uses: "actions/cache@v4.2.3"
         with:
           path: ".build/psalm"
           key: "php-${{ matrix.php-version }}-psalm-${{ github.sha }}"
@@ -124,21 +124,21 @@ jobs:
     runs-on: "ubuntu-latest"
 
     env:
-      COLLECT_COVERAGE_VERSION: "8.2"
+      COLLECT_COVERAGE_VERSION: "8.4"
 
     strategy:
       matrix:
         php-version:
-          - "8.0"
-          - "8.1"
           - "8.2"
+          - "8.3"
+          - "8.4"
 
         dependencies:
           - "lowest"
           - "highest"
 
         include:
-          - php-version: "8.2"
+          - php-version: "8.4"
             dependencies: "locked"
 
     steps:
@@ -168,7 +168,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.3"
+        uses: "actions/cache@v4.2.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"
@@ -191,7 +191,8 @@ jobs:
         if: "matrix.php-version == env.COLLECT_COVERAGE_VERSION && matrix.dependencies == 'locked'"
         env:
           CC_TEST_REPORTER_ID: "${{ secrets.CC_TEST_REPORTER_ID }}"
-        uses: "paambaati/codeclimate-action@v2.7.5"
+        uses: "paambaati/codeclimate-action@v9.0.0"
+        continue-on-error: true
         with:
           coverageLocations: "${{ github.workspace }}/.build/phpunit/logs/clover.xml"
 
@@ -203,7 +204,7 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "8.2"
+          - "8.4"
 
         dependencies:
           - "locked"
@@ -224,7 +225,7 @@ jobs:
         uses: "./.github/actions/composer/composer/determine-cache-directory"
 
       - name: "Cache dependencies installed with composer"
-        uses: "actions/cache@v2.1.3"
+        uses: "actions/cache@v4.2.3"
         with:
           path: "${{ env.COMPOSER_CACHE_DIR }}"
           key: "php-${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('composer.lock') }}"

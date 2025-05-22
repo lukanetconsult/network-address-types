@@ -12,11 +12,12 @@ use LUKA\Network\IPv4\IPv4Network;
 use LUKA\Network\IPv6\CIDRv6Address;
 use LUKA\Network\IPv6\IPv6Address;
 use LUKA\Network\IPv6\IPv6Network;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class IPv6NetworkTest extends TestCase
 {
-    public function provideNormalizePrefixTestData(): iterable
+    public static function provideNormalizePrefixTestData(): iterable
     {
         return [
             '2004:6fe8::/64' => ['2004:6fe8::/64', '2004:6fe8::/64'],
@@ -27,7 +28,7 @@ class IPv6NetworkTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideNormalizePrefixTestData */
+    #[DataProvider('provideNormalizePrefixTestData')]
     public function testShouldNormalizeCidrPrefix(string $input, string $expected): void
     {
         $subject = new IPv6Network(CIDRv6Address::fromString($input));
@@ -35,7 +36,7 @@ class IPv6NetworkTest extends TestCase
         self::assertSame($expected, $subject->toCidrAddress()->toString());
     }
 
-    public function provideRangeTestData(): iterable
+    public static function provideRangeTestData(): iterable
     {
         $data = [
             '200e:cafe:5::/120' => ['200e:cafe:5::1/120', '200e:cafe:5::ff/120'],
@@ -50,7 +51,7 @@ class IPv6NetworkTest extends TestCase
         }
     }
 
-    /** @dataProvider provideRangeTestData */
+    #[DataProvider('provideRangeTestData')]
     public function testShouldProvideNetworkRange(string $input, string $min, string $max): void
     {
         $subject = new IPv6Network(CIDRv6Address::fromString($input));
@@ -59,7 +60,7 @@ class IPv6NetworkTest extends TestCase
         self::assertSame($max, $subject->getRangeMaxAddress()->toString());
     }
 
-    public function provideContainsAddressTestData(): iterable
+    public static function provideContainsAddressTestData(): iterable
     {
         return [
             '200e:cafe:5::/120' => ['200e:cafe:5::/120', '200e:cafe:5::15'],
@@ -67,7 +68,7 @@ class IPv6NetworkTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideContainsAddressTestData */
+    #[DataProvider('provideContainsAddressTestData')]
     public function testShouldContainMatchingAddress(string $network, string $address): void
     {
         $subject = new IPv6Network(CIDRv6Address::fromString($network));
@@ -75,7 +76,7 @@ class IPv6NetworkTest extends TestCase
         self::assertTrue($subject->containsAddress(IPv6Address::fromString($address)));
     }
 
-    public function provideNotContainsAddressTestData(): iterable
+    public static function provideNotContainsAddressTestData(): iterable
     {
         return [
             'not in prefix' => ['200e:cafe:5::/120', IPv6Address::fromString('200e:cafe:5::115')],
@@ -83,7 +84,7 @@ class IPv6NetworkTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideNotContainsAddressTestData */
+    #[DataProvider('provideNotContainsAddressTestData')]
     public function testShouldNotContainNonMatchingAddress(string $network, IPAddress $address): void
     {
         $subject = new IPv6Network(CIDRv6Address::fromString($network));
@@ -100,7 +101,8 @@ class IPv6NetworkTest extends TestCase
         self::assertTrue($first->equals($second));
     }
 
-    public function provideInequalityTestData(): iterable
+    /** @return iterable<string, array{string, Address}> */
+    public static function provideInequalityTestData(): iterable
     {
         return [
             'different network' => ['::1/10', new IPv6Network(CIDRv6Address::fromString('::1/8'))],
@@ -109,7 +111,7 @@ class IPv6NetworkTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideInequalityTestData */
+    #[DataProvider('provideInequalityTestData')]
     public function testShouldNotMatchInequality(string $subject, Address $other): void
     {
         self::assertFalse((new IPv6Network(CIDRv6Address::fromString($subject)))->equals($other));

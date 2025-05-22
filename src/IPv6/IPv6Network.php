@@ -9,6 +9,7 @@ use LUKA\Network\Address;
 use LUKA\Network\CIDRAddress;
 use LUKA\Network\IPAddress;
 use LUKA\Network\Network;
+use Override;
 
 use function gmp_add;
 use function gmp_and;
@@ -41,11 +42,13 @@ final class IPv6Network implements Network
         );
     }
 
+    #[Override]
     public function toString(): string
     {
         return $this->cidr->toString();
     }
 
+    #[Override]
     public function equals(Address $other): bool
     {
         return $other instanceof self
@@ -53,6 +56,7 @@ final class IPv6Network implements Network
             && gmp_cmp($this->netmask, $other->netmask) === 0;
     }
 
+    #[Override]
     public function getRangeMinAddress(): CIDRv6Address
     {
         $prefix = $this->cidr->getPrefixLength();
@@ -70,6 +74,7 @@ final class IPv6Network implements Network
             );
     }
 
+    #[Override]
     public function getRangeMaxAddress(): CIDRAddress
     {
         $prefix = $this->cidr->getPrefixLength();
@@ -87,6 +92,7 @@ final class IPv6Network implements Network
             );
     }
 
+    #[Override]
     public function containsAddress(IPAddress $address): bool
     {
         return $address instanceof IPv6Address
@@ -99,6 +105,7 @@ final class IPv6Network implements Network
             ) === 0;
     }
 
+    #[Override]
     public function toCidrAddress(): CIDRAddress
     {
         return $this->cidr;

@@ -11,9 +11,10 @@ use LUKA\Network\IPv6\CIDRv6Address;
 use LUKA\Network\IPv6\IPv6Address;
 use LUKA\Network\MACAddress;
 use LUKA\Network\NetworkAddress;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-class NetworkAddressTest extends TestCase
+final class NetworkAddressTest extends TestCase
 {
     public function testShouldThrowOnUnknownAddressFormat(): void
     {
@@ -21,7 +22,8 @@ class NetworkAddressTest extends TestCase
         NetworkAddress::fromString('hello world');
     }
 
-    public function provideFromStringTestData(): iterable
+    /** @return iterable<string, list{string, class-string, string}|list{string, class-string}> */
+    public static function provideFromStringTestData(): iterable
     {
         return [
             'ip v4' => ['127.0.0.1', IPv4Address::class],
@@ -34,7 +36,12 @@ class NetworkAddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideFromStringTestData */
+    /**
+     * @param class-string $expectedClass
+     *
+     * @return void
+     */
+    #[DataProvider('provideFromStringTestData')]
     public function testShouldConstructFromString(
         string $address,
         string $expectedClass,

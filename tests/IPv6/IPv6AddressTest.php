@@ -9,6 +9,7 @@ use LUKA\Network\Address;
 use LUKA\Network\IPv4\IPv4Address;
 use LUKA\Network\IPv6\CIDRv6Address;
 use LUKA\Network\IPv6\IPv6Address;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function json_decode;
@@ -19,7 +20,7 @@ use const STR_PAD_LEFT;
 
 class IPv6AddressTest extends TestCase
 {
-    public function provideValidAddressStrings(): iterable
+    public static function provideValidAddressStrings(): iterable
     {
         return [
             '::1' => ['::1', '::1'],
@@ -30,14 +31,14 @@ class IPv6AddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideValidAddressStrings */
+    #[DataProvider('provideValidAddressStrings')]
     public function testShouldConstructFromString(string $input, string $expected): void
     {
         $subject = IPv6Address::fromString($input);
         self::assertSame($expected, $subject->toString());
     }
 
-    public function provideInvalidAddressStrings(): iterable
+    public static function provideInvalidAddressStrings(): iterable
     {
         return [
             'multiple zero omits' => ['fe80::7::22'],
@@ -47,7 +48,7 @@ class IPv6AddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider  provideInvalidAddressStrings */
+    #[DataProvider('provideInvalidAddressStrings')]
     public function testShouldThrowInvalidArgumentOnInvalidAddressStringInput(string $input): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -79,7 +80,7 @@ class IPv6AddressTest extends TestCase
         self::assertTrue($subject->equals($other));
     }
 
-    public function provideInequalityTestData(): iterable
+    public static function provideInequalityTestData(): iterable
     {
         return [
             'different address' => ['fe80::a65:78:0:22', IPv6Address::fromString('fe80::a65:78:0:21')],
@@ -88,7 +89,7 @@ class IPv6AddressTest extends TestCase
         ];
     }
 
-    /** @dataProvider provideInequalityTestData */
+    #[DataProvider('provideInequalityTestData')]
     public function testShouldNotMatchInequality(string $subject, Address $other): void
     {
         self::assertFalse(IPv6Address::fromString($subject)->equals($other));

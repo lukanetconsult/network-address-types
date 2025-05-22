@@ -12,11 +12,11 @@ use function is_numeric;
 use function is_object;
 use function is_string;
 use function preg_match;
-use function sprintf;
 use function strpos;
+use function vsprintf;
 
 /** @internal */
-class Assert
+abstract class Assert
 {
     /**
      * @psalm-pure
@@ -89,7 +89,11 @@ class Assert
         self::throwInvalidArgument($message ?? 'Expected %d to be less than %d', $value, $max);
     }
 
-    /** @psalm-pure */
+    /**
+     * @param non-empty-string $regex
+     *
+     * @psalm-pure
+     */
     public static function regex(string $value, string $regex, string|null $message = null): void
     {
         if (preg_match($regex, $value)) {
@@ -103,10 +107,7 @@ class Assert
     private static function throwInvalidArgument(string $message, float|int|string ...$args): void
     {
         throw new InvalidArgumentException(
-            sprintf(
-                $message,
-                ...$args,
-            ),
+            vsprintf($message, $args),
         );
     }
 

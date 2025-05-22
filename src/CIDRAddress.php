@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace LUKA\Network;
 
+use Override;
+
 use function strpos;
 
 /** @psalm-immutable */
@@ -18,6 +20,7 @@ abstract class CIDRAddress extends NetworkAddress
      *
      * @psalm-pure
      */
+    #[Override]
     public static function fromString(string $address): self
     {
         return strpos($address, ':') !== false
