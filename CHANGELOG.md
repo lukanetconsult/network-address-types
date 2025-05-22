@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.2.0 - 2025-05-22
+
+### Added
+
+- Support for PHP 8.3 and PHP 8.4 (#9)
+
+### Removed
+
+- Support for PHP 8.0 (EOL)
+- Support for PHP 8.1
+
+
 ## 1.1.0 - 2021-11-24
 
 ### Added
